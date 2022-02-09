@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setUser } from '../actions';
 
 const EMAIL_REGEX = /^[a-z0-9._-]+@[a-z0-9]+?\.[a-z]+\.?[a-z]+?$/i;
 const MIN_LENGHT = 6;
@@ -14,6 +17,14 @@ class Login extends React.Component {
     // this.func = this.func.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validationButton = this.validationButton.bind(this);
+    this.onSubmitForm = this.onSubmitForm.bind(this);
+  }
+
+  onSubmitForm(event) {
+    event.preventDefault();
+    const { history, dispatchSetValue } = this.props;
+    dispatchSetValue(this.state);
+    history.push('/carteira');
   }
 
   handleChange({ name, value }) {
@@ -25,7 +36,7 @@ class Login extends React.Component {
   validationButton() {
     const { email, pass } = this.state;
     const validateEmail = EMAIL_REGEX.test(email);
-    const validatePass = pass >= MIN_LENGHT;
+    const validatePass = pass.length < MIN_LENGHT;
 
     this.setState({ isBtnDisabled: !validateEmail || validatePass });
     // ver na aula do dia 14/01/22 do Moises Santana no discord
@@ -38,7 +49,6 @@ class Login extends React.Component {
       <section className="register-form">
         <h1>Login</h1>
         <form>
-          {/* Acima onSubmit={this.handleSubmit} */}
           <label htmlFor="email">
             Email
             <input
@@ -62,9 +72,9 @@ class Login extends React.Component {
             />
           </label>
           <button
-            data-testid="login-submit-button"
             type="submit"
             disabled={ isBtnDisabled }
+            onClick={ this.onSubmitForm }
           >
             Entrar
           </button>
@@ -74,4 +84,15 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatchSetValue: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchSetValue: (value) => dispatch(setUser(value)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
