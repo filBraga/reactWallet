@@ -10,9 +10,9 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: 'filipe@braga.com',
-      pass: '123123',
-      isBtnDisabled: false,
+      email: 'filipe@braga.co',
+      pass: '',
+      isBtnDisabled: true,
     };
     // this.func = this.func.bind(this);
     this.handleChange = this.handleChange.bind(this);

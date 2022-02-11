@@ -10,31 +10,45 @@ const apiFetch = async () => {
   return requestJson;
 };
 
+const apiFetchCurrency = async () => {
+  const request = await fetch('https://economia.awesomeapi.com.br/json/all');
+  const requestJson = await request.json();
+  // this.setState({ currencies: Object.keys(requestJson) });
+  console.log(Object.keys(requestJson));
+  // return Object.keys(requestJson);
+};
+
 class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
       id: 0,
-      valor: 100,
-      description: 'teste',
-      currency: 'BRL',
+      valor: '',
+      description: '',
+      currency: 'USD',
       method: 'dinheiro',
       tag: 'alimentacao',
       exchangeRates: '',
-      total: 0,
+      INITIAL_VALUE: 0,
+      currencies: '',
     };
     // this.func = this.func.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
+    // this.apiFetchCurrency = this.apiFetchCurrency.bind(this);
+  }
+
+  componentDidMount() {
+    apiFetchCurrency();
   }
 
   onSubmitForm = async (e) => {
     e.preventDefault();
 
     const { dispatchSetValue } = this.props;
-    const { id, total } = this.state;
+    const { id, INITIAL_VALUE } = this.state;
 
-    console.log(total);
+    console.log(INITIAL_VALUE);
 
     const apiReturn = await apiFetch();
     console.log(apiReturn);
@@ -63,10 +77,10 @@ class Wallet extends React.Component {
             Valor
             <input
               data-testid="value-input"
-              type="number"
+              type="Text"
               name="valor"
               id=""
-              value={ valor }
+              value={ valor || 0 }
               onChange={ ({ target }) => this.handleChange(target) }
             />
           </label>
@@ -83,7 +97,7 @@ class Wallet extends React.Component {
             />
           </label>
 
-          <label htmlFor="currency">
+          {/* <label htmlFor="currency">
             Moeda
             <input
               data-testid="currency-input"
@@ -93,14 +107,40 @@ class Wallet extends React.Component {
               value={ currency }
               onChange={ ({ target }) => this.handleChange(target) }
             />
+          </label> */}
+
+          <label htmlFor="combobox">
+            Moeda
+            <select
+              data-testid="currency-input"
+              name="combobox"
+              id="combobox"
+              value={ currency }
+              onChange={ ({ target }) => this.handleChange(target) }
+            >
+              <option value="USD" data-testid="USD">USD</option>
+              <option value="CAD">CAD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="ARS">ARS</option>
+              <option value="BTC">BTC</option>
+              <option value="LTC">LTC</option>
+              <option value="JPY">JPY</option>
+              <option value="CHF">CHF</option>
+              <option value="AUD">AUD</option>
+              <option value="CNY">CNY</option>
+              <option value="ILS">ILS</option>
+              <option value="ETH">ETH</option>
+              <option value="XRP">XRP</option>
+            </select>
           </label>
 
-          <label htmlFor="method">
+          <label htmlFor="methodInput">
             Metodo
             <select
               data-testid="method-input"
-              name="method"
-              id=""
+              name="methodInput"
+              id="methodInput"
               value={ method }
               onChange={ ({ target }) => this.handleChange(target) }
             >
@@ -110,12 +150,12 @@ class Wallet extends React.Component {
             </select>
           </label>
 
-          <label htmlFor="tag">
+          <label htmlFor="tagInput">
             Tag
             <select
               data-testid="tag-input"
-              name="tag"
-              id=""
+              name="tagInput"
+              id="tagInput"
               value={ tag }
               onChange={ ({ target }) => this.handleChange(target) }
             >
@@ -136,6 +176,25 @@ class Wallet extends React.Component {
           </button>
 
         </form>
+
+        <hr />
+
+        <table>
+          <tr>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+            <th>Editar/Excluir</th>
+          </tr>
+          <tr>
+            <td>Teste</td>
+          </tr>
+        </table>
+
       </div>
     );
   }

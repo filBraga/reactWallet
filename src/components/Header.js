@@ -6,7 +6,7 @@ class Header extends React.Component {
   constructor() {
     super();
     this.state = {
-      // email: '',
+      // currencies: '',
     };
     // this.func = this.func.bind(this);
   }
@@ -29,7 +29,7 @@ class Header extends React.Component {
           </div>
           <div>
             <h4 data-testid="total-field">
-              { total }
+              { total || '0' }
             </h4>
             {/* <Link to="/search" data-testid="link-to-search">Search </Link> */}
           </div>
