@@ -10,9 +10,9 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      pass: '',
-      isBtnDisabled: true,
+      email: 'filipe@braga.com',
+      pass: '123123',
+      isBtnDisabled: false,
     };
     // this.func = this.func.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -22,6 +22,7 @@ class Login extends React.Component {
 
   onSubmitForm(event) {
     event.preventDefault();
+    // dispatchSetValue foi criada em baixo
     const { history, dispatchSetValue } = this.props;
     dispatchSetValue(this.state);
     history.push('/carteira');

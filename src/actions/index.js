@@ -8,9 +8,9 @@ export const setUser = (payload) => ({
   payload,
 });
 
-export const SET_WALLET = 'SET_WALLET';
+export const SET_EXPENSES = 'SET_EXPENSES';
 
-export const setWallet = (payload) => ({
-  type: SET_WALLET,
+export const setExpenses = (payload) => ({
+  type: SET_EXPENSES,
   payload,
 });

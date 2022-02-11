@@ -12,7 +12,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { email } = this.props;
+    const { email, total } = this.props;
 
     return (
       <div data-testid="">
@@ -29,7 +29,7 @@ class Header extends React.Component {
           </div>
           <div>
             <h4 data-testid="total-field">
-              0
+              { total }
             </h4>
             {/* <Link to="/search" data-testid="link-to-search">Search </Link> */}
           </div>
@@ -41,10 +41,12 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  total: state.wallet.total,
 });
 
 Header.propTypes = {
   email: PropTypes.objectOf(PropTypes.string).isRequired,
+  total: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);
