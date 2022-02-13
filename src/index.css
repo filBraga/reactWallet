@@ -18,3 +18,9 @@ code {
   justify-content: space-evenly;
   background-color: rgb(200, 200, 200);
 }
+
+.TableHeader {
+  /* display: flex; */
+  justify-content: space-around;
+  background-color: rgb(200, 200, 200);
+}

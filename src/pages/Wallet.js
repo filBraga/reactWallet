@@ -25,7 +25,7 @@ class Wallet extends React.Component {
       id: 0,
       value: 0,
       description: '',
-      currency: 'USD',
+      currency: '',
       method: '',
       tag: '',
       exchangeRates: '',
@@ -68,7 +68,7 @@ class Wallet extends React.Component {
 
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies } = this.props;
+    const { currencies, expenses } = this.props;
 
     return (
       <div>
@@ -100,18 +100,6 @@ class Wallet extends React.Component {
             />
           </label>
 
-          {/* <label htmlFor="currency">
-            Moeda
-            <input
-              data-testid="currency-input"
-              type="Text"
-              name="currency"
-              id=""
-              value={ currency }
-              onChange={ ({ target }) => this.handleChange(target) }
-            />
-          </label> */}
-
           <label htmlFor="currency">
             Moeda
             <select
@@ -128,20 +116,6 @@ class Wallet extends React.Component {
                   </option>
                 ),
               )}
-              {/* <option value="USD" data-testid="USD">USD</option>
-              <option value="CAD">CAD</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-              <option value="ARS">ARS</option>
-              <option value="BTC">BTC</option>
-              <option value="LTC">LTC</option>
-              <option value="JPY">JPY</option>
-              <option value="CHF">CHF</option>
-              <option value="AUD">AUD</option>
-              <option value="CNY">CNY</option>
-              <option value="ILS">ILS</option>
-              <option value="ETH">ETH</option>
-              <option value="XRP">XRP</option> */}
             </select>
           </label>
 
@@ -190,20 +164,40 @@ class Wallet extends React.Component {
         <hr />
 
         <table>
-          <tr>
+          <tr className="TableHeader">
             <th>Descrição</th>
             <th>Tag</th>
             <th>Método de pagamento</th>
+            <th>Valor</th>
             <th>Moeda</th>
             <th>Câmbio utilizado</th>
             <th>Valor convertido</th>
             <th>Moeda de conversão</th>
             <th>Editar/Excluir</th>
           </tr>
-          <tr>
 
-            <td>Teste</td>
-          </tr>
+          {expenses.map((item) => (
+            <div key={ item.id }>
+              <tr>
+                <td>{item.description}</td>
+                <td>{item.tag}</td>
+                <td>{item.method}</td>
+                <td>
+                  { Number(item.value).toFixed(2)}
+                </td>
+                <td>{item.exchangeRates[item.currency].name}</td>
+                <td>
+                  {Number(item.exchangeRates[item.currency].ask).toFixed(2)}
+                </td>
+                <td>
+                  {Number(item.exchangeRates[item.currency].ask * item.value).toFixed(2)}
+                </td>
+                <td>Real</td>
+                <td>Editar</td>
+              </tr>
+            </div>
+          ))}
+
         </table>
 
       </div>
@@ -215,6 +209,7 @@ Wallet.propTypes = {
   dispatchSetValue: PropTypes.func.isRequired,
   dispatchCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.shape(array.isRequired).isRequired,
+  expenses: PropTypes.shape(array.isRequired).isRequired,
   map: PropTypes.func.isRequired,
 };
 
@@ -225,6 +220,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
