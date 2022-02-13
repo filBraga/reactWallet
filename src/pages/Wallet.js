@@ -214,7 +214,7 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   dispatchSetValue: PropTypes.func.isRequired,
   dispatchCurrencies: PropTypes.func.isRequired,
-  currencies: PropTypes.shapeOf(array.isRequired).isRequired,
+  currencies: PropTypes.shape(array.isRequired).isRequired,
   map: PropTypes.func.isRequired,
 };
 
